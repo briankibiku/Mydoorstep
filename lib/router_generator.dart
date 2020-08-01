@@ -1,4 +1,6 @@
-import 'features/shopping_cart.dart'; 
+import 'features/gas_shop.dart';
+import 'features/liquor_shop.dart';
+import 'features/shopping_cart.dart';
 import 'routes.dart';
 
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'features/liquor_stores.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    final args = settings.arguments;
     switch (settings.name) {
       case Routes.homePage:
         return MaterialPageRoute(builder: (_) => HomePage());
@@ -17,7 +20,11 @@ class Router {
       case Routes.gasSuppliers:
         return MaterialPageRoute(builder: (_) => GasSuppliers());
       case Routes.shoppingCart:
-        return MaterialPageRoute(builder: (_) => ShoppingCart()); 
+        return MaterialPageRoute(builder: (_) => ShoppingCart());
+      case Routes.liquorShop:
+        return MaterialPageRoute(builder: (_) => LiquorShop(liquorStoreName: args));
+      case Routes.gasShop:
+        return MaterialPageRoute(builder: (_) => GasShop(gasStoreName: args)); 
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

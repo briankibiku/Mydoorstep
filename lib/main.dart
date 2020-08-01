@@ -1,12 +1,14 @@
-import 'package:flutter/material.dart';  
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'router_generator.dart';
 import 'routes.dart';
 
 import 'package:mydoorstep/shared/authentication_handler.dart';
 
-void main() { 
-    runApp(MyApp());
+void main() {
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -28,6 +30,37 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   AuthenticationHandler authenticationHandler = AuthenticationHandler();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<FirebaseUser> _handleSignIn() async {
+    // hold the instance of the authenticated user
+    FirebaseUser user;
+    // flag to check whether we're signed in already
+    bool isSignedIn = await _googleSignIn.isSignedIn();
+    if (isSignedIn) {
+      // if so, return the current user
+      user = await _auth.currentUser();
+    } else {
+      final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      // get the credentials to (access / id token)
+      // to sign in via Firebase Authentication
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+      user = (await _auth.signInWithCredential(credential)).user;
+    }
+
+    return user;
+  }
+
+  void onGoogleSignIn(BuildContext context) async {
+    // FirebaseUser user =
+    await _handleSignIn();
+    await Navigator.pushNamed(context, Routes.homePage);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,12 +84,10 @@ class _LandingPageState extends State<LandingPage> {
                 color: Color(0xFF6DD288),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(40))),
-                onPressed: () async {
+                onPressed: () {
                   // Sign in function starts executing here
                   print('🐛🐛  initializing login');
-                  await authenticationHandler.signInWithGoogle().whenComplete(() {
-                    Navigator.popAndPushNamed(context, Routes.homePage);
-                  });
+                  onGoogleSignIn(context);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

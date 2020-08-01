@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../routes.dart';
+
 class GasSuppliers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -137,7 +139,9 @@ class GasSupplierCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, Routes.gasShop, arguments: supplierName);
+      },
       child: Container(
         height: 80,
         width: double.infinity,
@@ -173,10 +177,13 @@ class GasSupplierCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Image(
-                              height: 10,
-                              width: 10,
-                              image: AssetImage('assets/images/location.png', ), 
-                                  color: Colors.black54,),
+                            height: 10,
+                            width: 10,
+                            image: AssetImage(
+                              'assets/images/location.png',
+                            ),
+                            color: Colors.black54,
+                          ),
                           Text(supplierLocation,
                               style: TextStyle(
                                   color: Colors.black54,

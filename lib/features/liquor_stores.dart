@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../routes.dart';
+
 class LiquorStores extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -87,27 +89,27 @@ class LiquorStores extends StatelessWidget {
                                 liquorStoreName: 'Whiskey farm',
                                 liquorStoreLocation: 'Mwimuto/Kitisuru',
                               ),
-                              SizedBox(width: 20.0),
+                              SizedBox(height: 10.0),
                               LiquorStoreCard(
                                 liquorStoreName: 'Saki wines & spirit',
                                 liquorStoreLocation: 'Wangige',
                               ),
-                              SizedBox(width: 20.0),
+                              SizedBox(height: 10.0),
                               LiquorStoreCard(
                                 liquorStoreName: 'Whiskey farm',
                                 liquorStoreLocation: 'Mwimuto/Kitisuru',
                               ),
-                              SizedBox(width: 20.0),
+                              SizedBox(height: 10.0),
                               LiquorStoreCard(
                                 liquorStoreName: 'Whiskey farm',
                                 liquorStoreLocation: 'Mwimuto/Kitisuru',
                               ),
-                              SizedBox(width: 20.0),
+                              SizedBox(height: 10.0),
                               LiquorStoreCard(
                                 liquorStoreName: 'Whiskey farm',
                                 liquorStoreLocation: 'Mwimuto/Kitisuru',
                               ),
-                              SizedBox(width: 20.0),
+                              SizedBox(height: 10.0),
                             ],
                           ),
                         ),
@@ -133,54 +135,63 @@ class LiquorStoreCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, Routes.liquorShop,
+            arguments: liquorStoreName);
+      },
       child: Container(
         height: 80,
         width: double.infinity,
         child: Card(
           elevation: 0,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Row(
                 children: <Widget>[
                   Container(
-                    height: 120,
-                    width: 50,
+                    width: 70,
+                    height: 80,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            bottomLeft: Radius.circular(20)),
+                            topLeft: Radius.circular(8),
+                            bottomLeft: Radius.circular(8)),
                         image: DecorationImage(
+                            fit: BoxFit.fill,
                             image: AssetImage('assets/images/whiskey.jpg'))),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  SizedBox(width: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        liquorStoreName,
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w600),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Image(
-                              height: 10,
-                              width: 10,
-                              image: AssetImage('assets/images/location.png'),
-                              color: Colors.black45),
-                          Text(liquorStoreLocation,
-                              style: TextStyle(color: Colors.black54,
-                                  fontSize: 12, fontWeight: FontWeight.w400)),
+                          Text(
+                            liquorStoreName,
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Image(
+                                  height: 10,
+                                  width: 10,
+                                  image:
+                                      AssetImage('assets/images/location.png'),
+                                  color: Colors.black45),
+                              Text(liquorStoreLocation,
+                                  style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400)),
+                            ],
+                          ),
                         ],
                       ),
                     ],
